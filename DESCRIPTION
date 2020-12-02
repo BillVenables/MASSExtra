@@ -6,7 +6,7 @@ Author: Bill Venables
 Maintainer: Bill Venables <bill.venables@gmail.com>
 Description: Utilities from the MASS package with some slight extensions
     and improvements for simpler usage.
-License: file LICENSE
+License: GPL-2 | GPL-3
 Depends: R (>= 3.5.0)
 Imports: methods, graphics, stats, MASS
 Encoding: UTF-8
