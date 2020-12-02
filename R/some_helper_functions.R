@@ -1,8 +1,10 @@
 
 #' @import splines
-#' @export ns
-#' @export bs
-NULL
+#' @export
+splines::ns
+#' @export
+splines::bs
+
 
 #' Normalise a vector
 #'
