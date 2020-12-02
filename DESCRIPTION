@@ -1,12 +1,12 @@
 Package: MASSExtra
 Type: Package
 Title: Some MASS Enhancements
-Version: 0.1.0
+Version: 0.1.2
 Author: Bill Venables
 Maintainer: Bill Venables <bill.venables@gmail.com>
 Description: Utilities from the MASS package with some slight extensions
     and improvements for simpler usage.
-License: GPL-2
+License: file LICENSE
 Depends: R (>= 3.5.0)
 Imports: methods, graphics, stats, MASS
 Encoding: UTF-8
