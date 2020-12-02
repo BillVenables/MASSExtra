@@ -9,7 +9,7 @@ step_down(object, ..., trace = FALSE, k)
 \arguments{
 \item{object}{A fitted model object}
 
-\item{...}{additional arguments passed to \code{\link{dropterm}} such as \code{k}}
+\item{...}{additional arguments passed to \code{\link{drop_term}} such as \code{k}}
 
 \item{trace}{logical: do you want a trace of the process printed?}
 
@@ -20,7 +20,7 @@ A refined fitted model object
 }
 \description{
 A simple facility to refine models by backward elimination.
-Covers cases where \code{\link{dropterm}} works but \code{\link{step_AIC}}
+Covers cases where \code{\link{drop_term}} works but \code{\link{step_AIC}}
 does not
 }
 \examples{

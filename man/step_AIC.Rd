@@ -4,7 +4,7 @@
 \alias{step_AIC}
 \alias{step_BIC}
 \alias{step_GIC}
-\alias{dropterm}
+\alias{drop_term}
 \title{Stepwise model construction and inspection}
 \usage{
 step_AIC(object, ..., trace = 0, k = 2)
@@ -13,7 +13,7 @@ step_BIC(object, ..., trace = 0, k = max(2, log(nobs(object))))
 
 step_GIC(object, ..., trace = 0, k = (2 + log(nobs(object)))/2)
 
-dropterm(object, ..., sorted = TRUE, test = default_test(object), k)
+drop_term(object, ..., sorted = TRUE, test = default_test(object), k)
 }
 \arguments{
 \item{object}{as for \code{\link[MASS]{stepAIC}}}
@@ -35,6 +35,6 @@ Front-ends to \code{\link[MASS]{stepAIC}} and \code{\link[MASS]{dropterm}} with 
 }
 \examples{
 fm <- glm.nb(Days ~ .^3, quine)
-dropterm(fm_aic <- step_AIC(fm))
-dropterm(fm_bic <- step_BIC(fm))
+drop_term(fm_aic <- step_AIC(fm))
+drop_term(fm_bic <- step_BIC(fm))
 }

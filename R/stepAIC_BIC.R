@@ -18,8 +18,8 @@
 #'
 #' @examples
 #' fm <- glm.nb(Days ~ .^3, quine)
-#' dropterm(fm_aic <- step_AIC(fm))
-#' dropterm(fm_bic <- step_BIC(fm))
+#' drop_term(fm_aic <- step_AIC(fm))
+#' drop_term(fm_bic <- step_BIC(fm))
 step_AIC <- function(object, ..., trace = 0, k = 2) {
   if(isTRUE(object$call$trace)) {
     warning("Trace detected. Turning it off.", immediate. = TRUE)
@@ -64,7 +64,7 @@ step_GIC <- function(object, ..., trace = 0,
 
 #' @rdname step_AIC
 #' @export
-dropterm <- function(object, ..., sorted = TRUE, test = default_test(object), k) {
+drop_term <- function(object, ..., sorted = TRUE, test = default_test(object), k) {
   if(!isS4(object) && isTRUE(object$call$trace)) {
     warning("Trace detected. Turning it off.", immediate. = TRUE)
     call <- substitute(update(OBJ, trace = FALSE),
@@ -92,12 +92,12 @@ dropterm <- function(object, ..., sorted = TRUE, test = default_test(object), k)
                       names(out))
   }
   structure(out, pName = grep("IC", names(out), value = TRUE)[1],
-            class = c("dropterm", class(out)))
+            class = c("drop_term", class(out)))
 }
 
-#' Dropterm plot method
+#' drop_term plot method
 #'
-#' @param x An object of class \code{"dropterm"}
+#' @param x An object of class \code{"drop_term"}
 #' @param ...,horiz arguments past on to \code{graphics::barplot}
 #' @param fill,colour \code{barplot} fill and border colour(s)
 #' @param las graphics parameter
@@ -108,10 +108,10 @@ dropterm <- function(object, ..., sorted = TRUE, test = default_test(object), k)
 #' @examples
 #' fm <- lm(medv ~ . + (rm + tax + lstat)^2 +
 #'            I((rm - 6)^2) + I((tax - 400)^2) + I((lstat - 12)^2), Boston)
-#' d <- dropterm(fm, k = "bic")
+#' d <- drop_term(fm, k = "bic")
 #' plot(d)
 #' plot(d, horiz = FALSE)
-plot.dropterm <- function(x, ..., horiz = TRUE,
+plot.drop_term <- function(x, ..., horiz = TRUE,
                           las = ifelse(horiz, 1, 2),
                           fill = c("red", "steel blue"),
                           colour = c("red", "steel blue"),
@@ -229,7 +229,7 @@ default_test.lm <- function(object) {
 
 
 .eliminate <- function(object, ..., trace) {
-  d <- dropterm(object, sorted = TRUE, ...)
+  d <- drop_term(object, sorted = TRUE, ...)
   if(trace)
     print(d)
   if(rownames(d)[1] %in% c("<none>", "1")) { ## hit the limit, do nothing
@@ -246,11 +246,11 @@ default_test.lm <- function(object) {
 #' Naive backeward elimination
 #'
 #' A simple facility to refine models by backward elimination.
-#' Covers cases where \code{\link{dropterm}} works but \code{\link{step_AIC}}
+#' Covers cases where \code{\link{drop_term}} works but \code{\link{step_AIC}}
 #' does not
 #'
 #' @param object A fitted model object
-#' @param ... additional arguments passed to \code{\link{dropterm}} such as \code{k}
+#' @param ... additional arguments passed to \code{\link{drop_term}} such as \code{k}
 #' @param trace logical: do you want a trace of the process printed?
 #' @param k penalty (default 2, as for AIC)
 #'
