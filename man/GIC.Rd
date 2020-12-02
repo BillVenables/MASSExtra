@@ -18,6 +18,6 @@ mid-way between 2 (as for AIC) and log(n) (as for BIC).  I.e.
 "not too soft" and "not too hard", just "Glodilocks".
 }
 \examples{
-gm <- glm.nb(Days ~ Sex/(Age + Eth*Lrn), MASS::quine)
+gm <- glm.nb(Days ~ Sex/(Age + Eth*Lrn), quine)
 c(AIC = AIC(gm), GIC = GIC(gm), BIC = BIC(gm))
 }

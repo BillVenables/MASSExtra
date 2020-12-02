@@ -23,5 +23,5 @@ the region near alpha = 0 with some care
 \examples{
 plot(12:50, bc(12:50, -1), type = "l", xlab = "MPG", ylab = "bc(MPG, -1)",
      las = 1, col = "sky blue", panel.first = grid())
-points(bc(MPG.city, -1) ~ MPG.city, data = MASS::Cars93, pch = 16, cex = 0.7)
+points(bc(MPG.city, -1) ~ MPG.city, data = Cars93, pch = 16, cex = 0.7)
 }

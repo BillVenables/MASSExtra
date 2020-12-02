@@ -17,7 +17,7 @@ NULL
 #' @export
 #'
 #' @examples
-#' lambda(medv ~ ., MASS::Boston, span = 10)
+#' lambda(medv ~ ., Boston, span = 10)
 lambda <- function(bc, ...) {
   UseMethod("lambda")
 }
@@ -97,7 +97,7 @@ print.lambda <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' box_cox(MPG.city ~ Weight, MASS::Cars93)
+#' box_cox(MPG.city ~ Weight, Cars93)
 setGeneric("box_cox", function(object, ...) {
   standardGeneric("box_cox")
 })
@@ -116,14 +116,14 @@ setMethod("box_cox", signature(object = "formula"),
 #' @export
 setMethod("box_cox", signature(object = "lm"),
           function(object, ..., plotit, flap = 0.4) {
-            bc <- MASS::boxcox(object, plotit = FALSE, ...)
+            bc <- boxcox(object, plotit = FALSE, ...)
             lam <- lambda(bc)
             b <- attr(lam, "coefs")
             x0 <- attr(lam, "x0")
             z <- qchisq(0.95, 1)/2
             lims <- sort(Re(polyroot(c(z, b[-1])))) + x0
             gap <- flap*diff(lims)
-            out <- MASS::boxcox(object, plotit = FALSE,
+            out <- boxcox(object, plotit = FALSE,
                                 lambda = seq(lims[1] - gap,
                                              lims[2] + gap,
                                              len = 500))
@@ -190,7 +190,7 @@ print.box_cox <- plot.box_cox
 #' @examples
 #' plot(12:50, bc(12:50, -1), type = "l", xlab = "MPG", ylab = "bc(MPG, -1)",
 #'      las = 1, col = "sky blue", panel.first = grid())
-#' points(bc(MPG.city, -1) ~ MPG.city, data = MASS::Cars93, pch = 16, cex = 0.7)
+#' points(bc(MPG.city, -1) ~ MPG.city, data = Cars93, pch = 16, cex = 0.7)
 bc <- function(y, alpha, eps = 1.0e-4) { ## vectorized wrt y and alpha
   n <- max(length(y), length(alpha))
   alpha <- rep_len(alpha, length.out = n)
@@ -212,9 +212,9 @@ bc <- function(y, alpha, eps = 1.0e-4) { ## vectorized wrt y and alpha
 #' @export
 #'
 #' @examples
-#' invy <- with(MASS::Cars93, bc(MPG.city, alpha = -1))
+#' invy <- with(Cars93, bc(MPG.city, alpha = -1))
 #' mpgc <- bc_inv(invy, alpha = -1)
-#' range(mpgc - MASS::Cars93$MPG.city)
+#' range(mpgc - Cars93$MPG.city)
 bc_inv <- function(z, alpha, eps = 1e-5) {
   n <- max(length(z), length(alpha))
   alpha <- rep_len(alpha, length.out = n)

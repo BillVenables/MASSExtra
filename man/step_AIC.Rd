@@ -34,7 +34,7 @@ Front-ends to \code{\link[MASS]{stepAIC}} and \code{\link[MASS]{dropterm}} with 
 "Goldilocks" criterion.
 }
 \examples{
-fm <- glm.nb(Days ~ .^3, MASS::quine)
+fm <- glm.nb(Days ~ .^3, quine)
 dropterm(fm_aic <- step_AIC(fm))
 dropterm(fm_bic <- step_BIC(fm))
 }

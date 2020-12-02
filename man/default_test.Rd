@@ -40,6 +40,6 @@ A character string, one of \code{"F", "Chisq", or "none"}
 Find an appropriate test to use in \code{\link[MASS]{dropterm}} if not specified
 }
 \examples{
-fm <- glm.nb(Days ~ .^3, MASS::quine)
+fm <- glm.nb(Days ~ .^3, quine)
 default_test(fm)
 }

@@ -26,6 +26,6 @@ cover the additional parameter involved in negative binomial models.
 (Currently the same as \code{\link[stats]{vcov}} apart from negative binomial models.)
 }
 \examples{
-fm <- glm.nb(Days ~ Sex/(Age + Eth*Lrn), MASS::quine)
+fm <- glm.nb(Days ~ Sex/(Age + Eth*Lrn), quine)
 Sigma <- vcovx(fm)
 }

@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' fm <- glm.nb(Days ~ Sex/(Age + Eth*Lrn), MASS::quine)
+#' fm <- glm.nb(Days ~ Sex/(Age + Eth*Lrn), quine)
 #' Sigma <- vcovx(fm)
 vcovx <- function(object, ...) {
   UseMethod("vcovx")
@@ -74,6 +74,6 @@ vcovx.negbin <- function(object, ...) {
     obsInfo[i, (p + 1)] <- obsInfo[(p + 1), i]
   }
   ## return variance covariance matrix
-  structure(MASS::ginv(obsInfo), dimnames = rep(list(c(rownames(vcov(object)), "theta")), 2))
+  structure(ginv(obsInfo), dimnames = rep(list(c(rownames(vcov(object)), "theta")), 2))
 }
 

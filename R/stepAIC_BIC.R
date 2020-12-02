@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @examples
-#' fm <- glm.nb(Days ~ .^3, MASS::quine)
+#' fm <- glm.nb(Days ~ .^3, quine)
 #' dropterm(fm_aic <- step_AIC(fm))
 #' dropterm(fm_bic <- step_BIC(fm))
 step_AIC <- function(object, ..., trace = 0, k = 2) {
@@ -27,7 +27,7 @@ step_AIC <- function(object, ..., trace = 0, k = 2) {
                        list(OBJ = substitute(object)))
     object <- eval.parent(call)
   }
-  out <- MASS::stepAIC(object, ..., trace = trace, k = k)
+  out <- stepAIC(object, ..., trace = trace, k = k)
   attr(out, "penalty") <- k
   out
 }
@@ -42,7 +42,7 @@ step_BIC <- function(object, ..., trace = 0,
                        list(OBJ = substitute(object)))
     object <- eval.parent(call)
   }
-  out <- MASS::stepAIC(object, ..., trace = trace, k = k)
+  out <- stepAIC(object, ..., trace = trace, k = k)
   attr(out, "penalty") <- k
   out
 }
@@ -57,7 +57,7 @@ step_GIC <- function(object, ..., trace = 0,
                        list(OBJ = substitute(object)))
     object <- eval.parent(call)
   }
-  out <- MASS::stepAIC(object, ..., trace = trace, k = k)
+  out <- stepAIC(object, ..., trace = trace, k = k)
   attr(out, "penalty") <- k
   out
 }
@@ -107,7 +107,7 @@ dropterm <- function(object, ..., sorted = TRUE, test = default_test(object), k)
 #' @export
 #' @examples
 #' fm <- lm(medv ~ . + (rm + tax + lstat)^2 +
-#'            I((rm - 6)^2) + I((tax - 400)^2) + I((lstat - 12)^2), MASS::Boston)
+#'            I((rm - 6)^2) + I((tax - 400)^2) + I((lstat - 12)^2), Boston)
 #' d <- dropterm(fm, k = "bic")
 #' plot(d)
 #' plot(d, horiz = FALSE)
@@ -157,7 +157,7 @@ plot.dropterm <- function(x, ..., horiz = TRUE,
 #' @export
 #'
 #' @examples
-#' fm <- glm.nb(Days ~ .^3, MASS::quine)
+#' fm <- glm.nb(Days ~ .^3, quine)
 #' default_test(fm)
 default_test <- function(object) {
   UseMethod("default_test")
@@ -259,7 +259,7 @@ default_test.lm <- function(object) {
 #'
 #' @examples
 #' fm <- lm(medv ~ . + (rm + tax + lstat)^2 +
-#'            I((rm - 6)^2) + I((tax - 400)^2) + I((lstat - 12)^2), MASS::Boston)
+#'            I((rm - 6)^2) + I((tax - 400)^2) + I((lstat - 12)^2), Boston)
 #' sfm <- step_down(fm, trace = TRUE, k = "bic")
 step_down <- function(object, ..., trace = FALSE, k) {
   if(!isS4(object) && isTRUE(object$call$trace)) {
@@ -305,7 +305,7 @@ step_down <- function(object, ..., trace = FALSE, k) {
 #' @export
 #'
 #' @examples
-#' gm <- glm.nb(Days ~ Sex/(Age + Eth*Lrn), MASS::quine)
+#' gm <- glm.nb(Days ~ Sex/(Age + Eth*Lrn), quine)
 #' c(AIC = AIC(gm), GIC = GIC(gm), BIC = BIC(gm))
 GIC <- function(object) {
   stats::AIC(object, k = (2 + log(stats::nobs(object)))/2)

@@ -28,9 +28,9 @@ prediction (or visualisation) the same scaling parameters will be used with
 the new data.
 }
 \examples{
-fm <- lm(Gas ~ Insul/zs(Temp), MASS::whiteside)
-gm <- lm(Gas ~ Insul/zu(Temp), MASS::whiteside)
-hm <- lm(Gas ~ Insul/Temp,     MASS::whiteside)
+fm <- lm(Gas ~ Insul/zs(Temp), whiteside)
+gm <- lm(Gas ~ Insul/zu(Temp), whiteside)
+hm <- lm(Gas ~ Insul/Temp,     whiteside)
 c(fm = unname(predict(fm, data.frame(Insul = "Before", Temp = 0.0))),
   gm = unname(predict(gm, data.frame(Insul = "Before", Temp = 0.0))),
   hm = unname(predict(hm, data.frame(Insul = "Before", Temp = 0.0))))

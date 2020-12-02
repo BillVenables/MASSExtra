@@ -42,5 +42,5 @@ an object of class \code{"box_cox"}
 A front-end to \code{\link[MASS]{boxcox}} with slicker display and better defaults
 }
 \examples{
-box_cox(MPG.city ~ Weight, MASS::Cars93)
+box_cox(MPG.city ~ Weight, Cars93)
 }

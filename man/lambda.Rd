@@ -35,5 +35,5 @@ Estimates the box-cox power transformation appropriate for
 a linear model
 }
 \examples{
-lambda(medv ~ ., MASS::Boston, span = 10)
+lambda(medv ~ ., Boston, span = 10)
 }

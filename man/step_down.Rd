@@ -25,6 +25,6 @@ does not
 }
 \examples{
 fm <- lm(medv ~ . + (rm + tax + lstat)^2 +
-           I((rm - 6)^2) + I((tax - 400)^2) + I((lstat - 12)^2), MASS::Boston)
+           I((rm - 6)^2) + I((tax - 400)^2) + I((lstat - 12)^2), Boston)
 sfm <- step_down(fm, trace = TRUE, k = "bic")
 }

@@ -20,7 +20,7 @@ A vector of original quantities
 Find the original value corresponding to a box-cox transform
 }
 \examples{
-invy <- with(MASS::Cars93, bc(MPG.city, alpha = -1))
+invy <- with(Cars93, bc(MPG.city, alpha = -1))
 mpgc <- bc_inv(invy, alpha = -1)
-range(mpgc - MASS::Cars93$MPG.city)
+range(mpgc - Cars93$MPG.city)
 }
