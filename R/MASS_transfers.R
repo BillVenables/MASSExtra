@@ -1,27 +1,51 @@
 
 #' @import MASS
-#' @export Null
-#' @export fractions
-#' @export ginv
-#' @export glm.convert
-#' @export glm.nb
-#' @export glmmPQL
-#' @export isoMDS
-#' @export kde2d
-#' @export lda
-#' @export lm.gls
-#' @export logtrans
-#' @export lqs
-#' @export negative.binomial
-#' @export polr
-#' @export rlm
-#' @export rnegbin
-#' @export sammon
-#' @export stdres
-#' @export studres
-#' @export theta.ml
-#' @export theta.mm
-#' @export theta.md
-#' @export ucv
-#' @export width.SJ
-NULL
+#' @export
+MASS::Null
+#' @export
+MASS::fractions
+#' @export
+MASS::ginv
+#' @export
+MASS::glm.convert
+#' @export
+MASS::glm.nb
+#' @export
+MASS::glmmPQL
+#' @export
+MASS::isoMDS
+#' @export
+MASS::kde2d
+#' @export
+MASS::lda
+#' @export
+MASS::lm.gls
+#' @export
+MASS::logtrans
+#' @export
+MASS::lqs
+#' @export
+MASS::negative.binomial
+#' @export
+MASS::polr
+#' @export
+MASS::rlm
+#' @export
+MASS::rnegbin
+#' @export
+MASS::sammon
+#' @export
+MASS::stdres
+#' @export
+MASS::studres
+#' @export
+MASS::theta.ml
+#' @export
+MASS::theta.mm
+#' @export
+MASS::theta.md
+#' @export
+MASS::ucv
+#' @export
+MASS::width.SJ
+
