@@ -49,3 +49,11 @@ MASS::ucv
 #' @export
 MASS::width.SJ
 
+### MASS functions with MASSExtra replacements
+
+#' @export
+MASS::stepAIC
+#' @export
+MASS::dropterm
+#' @export
+MASS::boxcox
