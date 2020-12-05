@@ -4,21 +4,21 @@
 \alias{bc}
 \title{Box-Cox transform}
 \usage{
-bc(y, alpha, eps = 1e-04)
+bc(y, lambda, eps = 1e-04)
 }
 \arguments{
 \item{y}{numeric, the original observations}
 
-\item{alpha}{numeric, the box-cox power}
+\item{lambda}{numeric, the box-cox power}
 
-\item{eps}{numeric, a guard aroung alpha = 0}
+\item{eps}{numeric, a guard aroung lambda = 0}
 }
 \value{
 A vector of transformed quantities
 }
 \description{
 Compute the box-cox transform of a vector of values, handling
-the region near alpha = 0 with some care
+the region near lambda = 0 with some care
 }
 \examples{
 plot(12:50, bc(12:50, -1), type = "l", xlab = "MPG", ylab = "bc(MPG, -1)",

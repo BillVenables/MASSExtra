@@ -178,11 +178,11 @@ print.box_cox <- plot.box_cox
 #' Box-Cox transform
 #'
 #' Compute the box-cox transform of a vector of values, handling
-#' the region near alpha = 0 with some care
+#' the region near lambda = 0 with some care
 #'
 #' @param y numeric, the original observations
-#' @param alpha numeric, the box-cox power
-#' @param eps numeric, a guard aroung alpha = 0
+#' @param lambda numeric, the box-cox power
+#' @param eps numeric, a guard aroung lambda = 0
 #'
 #' @return A vector of transformed quantities
 #' @export
@@ -191,12 +191,12 @@ print.box_cox <- plot.box_cox
 #' plot(12:50, bc(12:50, -1), type = "l", xlab = "MPG", ylab = "bc(MPG, -1)",
 #'      las = 1, col = "sky blue", panel.first = grid())
 #' points(bc(MPG.city, -1) ~ MPG.city, data = Cars93, pch = 16, cex = 0.7)
-bc <- function(y, alpha, eps = 1.0e-4) { ## vectorized wrt y and alpha
-  n <- max(length(y), length(alpha))
-  alpha <- rep_len(alpha, length.out = n)
+bc <- function(y, lambda, eps = 1.0e-4) { ## vectorized wrt y and lambda
+  n <- max(length(y), length(lambda))
+  lambda <- rep_len(lambda, length.out = n)
   ly <- log(y)
-  aly <- alpha*ly
-  ifelse(abs(alpha) > eps,  (exp(aly) - 1)/alpha,
+  aly <- lambda*ly
+  ifelse(abs(lambda) > eps,  (exp(aly) - 1)/lambda,
          ly*(1 + aly*(1 + aly*(1 + aly*(1 + aly*(1 + aly*(1 + aly/7)/6)/5)/4)/3)/2))
 }
 
@@ -205,22 +205,22 @@ bc <- function(y, alpha, eps = 1.0e-4) { ## vectorized wrt y and alpha
 #' Find the original value corresponding to a box-cox transform
 #'
 #' @param z numeric, the transformed value
-#' @param alpha numeric, the power of the box-cox transform
-#' @param eps numeric, a guard around alpha = 0
+#' @param lambda numeric, the power of the box-cox transform
+#' @param eps numeric, a guard around lambda = 0
 #'
 #' @return A vector of original quantities
 #' @export
 #'
 #' @examples
-#' invy <- with(Cars93, bc(MPG.city, alpha = -1))
-#' mpgc <- bc_inv(invy, alpha = -1)
+#' invy <- with(Cars93, bc(MPG.city, lambda = -1))
+#' mpgc <- bc_inv(invy, lambda = -1)
 #' range(mpgc - Cars93$MPG.city)
-bc_inv <- function(z, alpha, eps = 1e-5) {
-  n <- max(length(z), length(alpha))
-  alpha <- rep_len(alpha, length.out = n)
-  ifelse(abs(alpha) > eps, (1 + alpha*z)^(1/alpha),
-         exp(z) * (1 - (z^2*alpha)/2 + ((3*z^4 + 8*z^3)*alpha^2)/24 -
-                     ((z^6 + 8*z^5 + 12*z^4)*alpha^3)/48 +
-                     ((15*z^8 + 240*z^7 + 1040*z^6 + 1152*z^5)*alpha^4)/5760 -
-                     ((3*z^10 + 80*z^9 + 680*z^8 + 2112*z^7 + 1920*z^6)*alpha^5)/11520))
+bc_inv <- function(z, lambda, eps = 1e-5) {
+  n <- max(length(z), length(lambda))
+  lambda <- rep_len(lambda, length.out = n)
+  ifelse(abs(lambda) > eps, (1 + lambda*z)^(1/lambda),
+         exp(z) * (1 - (z^2*lambda)/2 + ((3*z^4 + 8*z^3)*lambda^2)/24 -
+                     ((z^6 + 8*z^5 + 12*z^4)*lambda^3)/48 +
+                     ((15*z^8 + 240*z^7 + 1040*z^6 + 1152*z^5)*lambda^4)/5760 -
+                     ((3*z^10 + 80*z^9 + 680*z^8 + 2112*z^7 + 1920*z^6)*lambda^5)/11520))
 }

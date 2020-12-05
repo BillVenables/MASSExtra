@@ -3,26 +3,27 @@ title: "Rationale for MASSExtra"
 author: "Bill Venables"
 date: "`r Sys.Date()`"
 output: 
-  html_vignette: NULL
-    pdf_document:
+  pdf_document:
     includes:
       in_header: header.tex
+  html_vignette: NULL
 vignette: >
   %\VignetteIndexEntry{Rationale for MASSExtra}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = ""
-)
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment = "")
+library(tidyverse)
+library(MASSExtra)
 ```
 
 # Preamble
 
-This extension package to the classical `MASS` package, whose origins go back to nearly 30
+This extension package to the classical `MASS` package (Venables & Ripley, of ancient lineage), 
+whose origins go back to nearly 30
 years, comes about for a number of reasons.  
 
 Firstly, in my teaching I found I was using some of the old functions in the package with
@@ -36,6 +37,8 @@ For example, the function `zs` and its allies `zu`, `zq` and `zr` are mainly alt
 models in such a way that they work as they should when the fitted model object is used for
 prediction with new data.
 
+### Masking `select` from other packages
+
 Finally, there is the perennial `select` problem.  When `MASS` is used with other packages,
 such as `dplyr` the `select` function can easly be masked, causing confusion with users.
 `MASS::select` is rarely used, but `dplyr::select` is fundamental.  There are standard ways
@@ -43,12 +46,28 @@ of managing this kind of masking, but what we have done in `MASSExtra` is to exp
 more common functions used from `MASS` along with the extensions, in such a way that users
 will not need to have `MASS` attached to the search path at all, and hence masking is unlikely.
 
+# Amble
 
+We now consider some of the extensions that the package offers to the originals.  Most of the
+extensions will have a name that includes an underscore of two somewhere to distinguish it from
+the V&R original.  Note that the original version is _also_ exported so that scripts that use
+it may do so without change, via the new package.
 
-```{r setup, fig.height = 5, fig.width = 10, out.width="100%"}
-library(MASSExtra)
+## The `box_cox` extensions.
+
+This original version, `boxcox` has a fairly rigid display for the plotted output which
+has been changed to give a more easily appreciated result.  The $y-$axis has been changed
+to give the likelihood-ratio statistic rather than the log-likelihood, and for the $x-$axis
+some attempt has been made to focus on the crucial region for the transformation parameter, $\lambda$,
+
+The following example shows the old and new plot versions for a simple example.
+
+```{r setup, fig.height = 5, fig.width = 10, out.width="100%", fig.cap="Box-cox, old and new displays"}
 par(mfrow = c(1,2))
 mod0 <- lm(MPG.city ~ Weight, Cars93)
 boxcox(mod0)  ## MASS
 box_cox(mod0) ## MASSExtra tweak
 ```
+
+In addition, there are functions `bc` to evaluate the transformation for a given exponent,
+(not that a precise exponent will usually be needed), 

@@ -9,8 +9,8 @@
   ...,
   horiz = TRUE,
   las = ifelse(horiz, 1, 2),
-  fill = c("red", "steel blue"),
-  colour = c("red", "steel blue"),
+  col = c("#DF536B", "steel blue"),
+  border = c("#DF536B", "steel blue"),
   show.model = TRUE
 )
 }
@@ -21,9 +21,9 @@
 
 \item{las}{graphics parameter}
 
-\item{fill, colour}{\code{barplot} fill and border colour(s)}
-
 \item{show.model}{logical: should the model itself be displayed?}
+
+\item{fill, colour}{\code{barplot} fill and border colour(s)}
 }
 \value{
 \code{x} invisibly

@@ -113,18 +113,18 @@ drop_term <- function(object, ..., sorted = TRUE, test = default_test(object), k
 #' plot(d, horiz = FALSE)
 plot.drop_term <- function(x, ..., horiz = TRUE,
                           las = ifelse(horiz, 1, 2),
-                          fill = c("red", "steel blue"),
-                          colour = c("red", "steel blue"),
+                          col = c("#DF536B", "steel blue"),
+                          border = c("#DF536B", "steel blue"),
                           show.model = TRUE) {
   pName <- attr(x, "pName")
   AIC <- x[[pName]]
   names(AIC) <- rownames(x)
   AIC <- sort(AIC - AIC["<none>"])
-  if(is.character(fill) && length(fill) == 2) {
-    fill <- ifelse(AIC < 0, fill[1], fill[2])
+  if(is.character(col) && length(col) == 2) {
+    col <- ifelse(AIC < 0, col[1], col[2])
   }
-  if(is.character(colour) && length(colour) == 2) {
-    colour <- ifelse(AIC < 0, colour[1], colour[2])
+  if(is.character(border) && length(border) == 2) {
+    border <- ifelse(AIC < 0, border[1], border[2])
   }
   pmar <- pmax(par("mar"), (if(horiz) c(4,6,1,1) else c(6,2,1,1)) + 0.1)
   oldPar <- par(mar = pmar, cex.axis = 0.8)
@@ -137,12 +137,18 @@ plot.drop_term <- function(x, ..., horiz = TRUE,
   }
   if(horiz) {
     barplot(AIC, xlab = bquote(Delta*' '*.(pName)), horiz = TRUE,
-            las = las, fill = fill, colour = colour, ...)
-    text("bottom right", h, cex = 0.8, family = "mono", font = 2)
+            las = las, col = col, border = border, ...)
+    # oldPar <- par("usr" = c(0, 1, 0, 1))
+    # on.exit(par(oldPar))
+    # text(x = c(0.5, 1), y = c(0.1, 0), labels = h, cex = 0.8, family = "courier new", font = 2)
+    legend("bottomright", legend = h, bty = "n", cex = 0.7)
   } else {
     barplot(AIC, ylab = bquote(Delta*' '*.(pName)), horiz = FALSE,
-            las = las, fill = fill, colour = colour, ...)
-    text("top left", h, cex = 0.8, family = "mono", font = 2)
+            las = las, col = col, border = border, ...)
+    # oldPar <- par("usr" = c(0, 1, 0, 1))
+    # on.exit(par(oldPar))
+    # text(x = 0, y = 1, h, cex = 0.8, family = "courier new", font = 2, xpd = NA)
+    legend("topleft", legend = h, bty = "n", cex = 0.7)
   }
   invisible(x)
 }

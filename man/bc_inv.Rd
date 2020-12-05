@@ -4,14 +4,14 @@
 \alias{bc_inv}
 \title{Box-Cox transform inverse}
 \usage{
-bc_inv(z, alpha, eps = 1e-05)
+bc_inv(z, lambda, eps = 1e-05)
 }
 \arguments{
 \item{z}{numeric, the transformed value}
 
-\item{alpha}{numeric, the power of the box-cox transform}
+\item{lambda}{numeric, the power of the box-cox transform}
 
-\item{eps}{numeric, a guard around alpha = 0}
+\item{eps}{numeric, a guard around lambda = 0}
 }
 \value{
 A vector of original quantities
@@ -20,7 +20,7 @@ A vector of original quantities
 Find the original value corresponding to a box-cox transform
 }
 \examples{
-invy <- with(Cars93, bc(MPG.city, alpha = -1))
-mpgc <- bc_inv(invy, alpha = -1)
+invy <- with(Cars93, bc(MPG.city, lambda = -1))
+mpgc <- bc_inv(invy, lambda = -1)
 range(mpgc - Cars93$MPG.city)
 }
