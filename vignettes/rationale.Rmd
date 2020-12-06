@@ -165,4 +165,60 @@ the argument settings.
    
 ## Examples
 
-We consider the well-known and much maligned Boston house price data.  
+We consider the well-known (and much maligned) Boston house price data.  See `?Boston`.  We
+begin by fitting a model that has more terms in it than the usual model, as it contains a few
+extra quadratic terms, including some key linear by linear interactions.
+
+```{r, fig.width=8, fig.height=6, fig.align="center", out.width="75%"}
+big_model <- lm(medv ~ . + (rm + tax + lstat + dis)^2 + poly(dis, 2) + poly(rm, 2) +
+                   poly(tax, 2) + poly(lstat, 2), Boston)
+big_model %>% drop_term(k = "GIC") %>% plot() %>% kable(booktabs=TRUE, digits=3)
+```
+
+Unlike `MASS::dropterm`, the table shows the terms beginning with the most important ones,
+that is those which, if dropped, would _increase_ the criterion and ending with those
+of least looking importance, that is those whose removal would most _decrease_ the 
+criterion.  And also note that here we are using the `GIC`, which is displayed in the
+output.
+
+Note particularly that rather than give the _value_ of the criterion by default the table
+and plot show _change_ in the criterion which would result if the term
+is removed from the model at that point.  This is a more meaningful quantity, and invariant
+with respect to the way in which the log-likelihood is defined.
+
+The `plot` method gives a graphical view of the same key bits of information, in the same
+vertical order as given in the table.  Terms whose removal would (at this point) improve
+the model are shown in _red_ and those which would not, and hence should (again, at this
+point) be retained are shown in _blue_.
+
+With all stepwise methods it is critically important to notice that the whole picture can
+change once any change is made to the current model.  This terms which appear "promising"
+at this stage may not seem so once any variable is removed from the model or some other
+variable brought into it.  This is a notoriously tricky area for the inexperienced.
+
+Notice that the `plot` method returns the original object, which can then be passed on via
+a pipe to more operations.  (`kable` does not, so this pipe sequence cannot be changed.)
+
+We now consider a refinement of this model by stepwise means, but rather than use the large
+model as the starting point, we begin with a more modest one which has no quadratic terms.
+
+```{r, fig.width=8, fig.height=6, fig.align="center", out.width="65%"}
+base_model <- lm(medv ~ ., Boston)
+gic_model <- step_GIC(base_model, scope = list(lower = ~1, upper = formula(big_model)))
+drop_term(gic_model) %>% plot() %>% kable(booktabs = TRUE, digits = 3)
+```
+
+The model is likely to be over-fitted.  To follow up on this we could look at profiles
+of the fitted terms as an informal way of model 'criticism'.
+
+```{r, fig.width=12, fig.height=6, fig.align="center", out.width="100%"}
+capture.output(suppressWarnings({
+   g1 <- visreg(gic_model, "dis", plot = FALSE, ylim = c(5,50))
+   g2 <- visreg(gic_model, "lstat", plot = FALSE, ylim = c(5,50))
+   plot(g1, gg = TRUE) + plot(g2, gg = TRUE) 
+})) -> junk
+```
+
+The case for curvature appears to be fairly weak, in each case with departure from a straight line dependence
+depending on a relatively few observations with high values for the predictor.  (Notice how hard you have to work
+to prevent `visreg` from generating unwanted output.)

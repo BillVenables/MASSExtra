@@ -30,3 +30,20 @@ p2 <- p0 + aes(y = bc(MPG.city, lambda(mod0))) + ggtitle("Transformed response")
   ylab(bquote(bc(MPG, .(round(lambda(mod0), 2)))))
 p1 + p2
 
+## ---- fig.width=8, fig.height=6, fig.align="center", out.width="75%"----------
+big_model <- lm(medv ~ . + (rm + tax + lstat + dis)^2 + poly(dis, 2) + poly(rm, 2) +
+                   poly(tax, 2) + poly(lstat, 2), Boston)
+big_model %>% drop_term(k = "GIC") %>% plot() %>% kable(booktabs=TRUE, digits=3)
+
+## ---- fig.width=8, fig.height=6, fig.align="center", out.width="65%"----------
+base_model <- lm(medv ~ ., Boston)
+gic_model <- step_GIC(base_model, scope = list(lower = ~1, upper = formula(big_model)))
+drop_term(gic_model) %>% plot() %>% kable(booktabs = TRUE, digits = 3)
+
+## ---- fig.width=12, fig.height=6, fig.align="center", out.width="100%"--------
+capture.output(suppressWarnings({
+   g1 <- visreg(gic_model, "dis", plot = FALSE, ylim = c(5,50))
+   g2 <- visreg(gic_model, "lstat", plot = FALSE, ylim = c(5,50))
+   plot(g1, gg = TRUE) + plot(g2, gg = TRUE) 
+})) -> junk
+
