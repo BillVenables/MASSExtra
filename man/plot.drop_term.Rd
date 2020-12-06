@@ -9,8 +9,8 @@
   ...,
   horiz = TRUE,
   las = ifelse(horiz, 1, 2),
-  col = c("#DF536B", "steel blue"),
-  border = c("#DF536B", "steel blue"),
+  col = c("#DF536B", "#2297E6"),
+  border = c("#DF536B", "#2297E6"),
   show.model = TRUE
 )
 }
@@ -21,9 +21,9 @@
 
 \item{las}{graphics parameter}
 
-\item{show.model}{logical: should the model itself be displayed?}
+\item{col, border}{\code{barplot} fill and border colour(s) for positive and negative changes to the criterion, respectively}
 
-\item{fill, colour}{\code{barplot} fill and border colour(s)}
+\item{show.model}{logical: should the model itself be displayed?}
 }
 \value{
 \code{x} invisibly
@@ -32,9 +32,9 @@
 drop_term plot method
 }
 \examples{
-fm <- lm(medv ~ . + (rm + tax + lstat)^2 +
-           I((rm - 6)^2) + I((tax - 400)^2) + I((lstat - 12)^2), Boston)
-d <- drop_term(fm, k = "bic")
-plot(d)
-plot(d, horiz = FALSE)
+boston_quad <- lm(medv ~ . + (rm + tax + lstat)^2 + poly(rm, 2) + 
+         poly(tax, 2) + poly(lstat, 2), Boston)
+dboston_quad <- drop_term(boston_quad, k = "bic")
+plot(dboston_quad)
+plot(dboston_quad, horiz = FALSE)
 }

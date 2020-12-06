@@ -99,22 +99,22 @@ drop_term <- function(object, ..., sorted = TRUE, test = default_test(object), k
 #'
 #' @param x An object of class \code{"drop_term"}
 #' @param ...,horiz arguments past on to \code{graphics::barplot}
-#' @param fill,colour \code{barplot} fill and border colour(s)
+#' @param col,border \code{barplot} fill and border colour(s) for positive and negative changes to the criterion, respectively
 #' @param las graphics parameter
 #' @param show.model logical: should the model itself be displayed?
 #'
 #' @return \code{x} invisibly
 #' @export
 #' @examples
-#' fm <- lm(medv ~ . + (rm + tax + lstat)^2 +
-#'            I((rm - 6)^2) + I((tax - 400)^2) + I((lstat - 12)^2), Boston)
-#' d <- drop_term(fm, k = "bic")
-#' plot(d)
-#' plot(d, horiz = FALSE)
+#' boston_quad <- lm(medv ~ . + (rm + tax + lstat)^2 + poly(rm, 2) + 
+#'          poly(tax, 2) + poly(lstat, 2), Boston)
+#' dboston_quad <- drop_term(boston_quad, k = "bic")
+#' plot(dboston_quad)
+#' plot(dboston_quad, horiz = FALSE)
 plot.drop_term <- function(x, ..., horiz = TRUE,
                           las = ifelse(horiz, 1, 2),
-                          col = c("#DF536B", "steel blue"),
-                          border = c("#DF536B", "steel blue"),
+                          col = c("#DF536B", "#2297E6"),
+                          border = c("#DF536B", "#2297E6"),
                           show.model = TRUE) {
   pName <- attr(x, "pName")
   AIC <- x[[pName]]
