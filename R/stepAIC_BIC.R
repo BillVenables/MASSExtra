@@ -12,7 +12,7 @@
 #' @param ... additional arguments passed on to main function in \code{MASS}
 #' @param trace,k as for \code{\link[MASS]{stepAIC}}
 #' @param sorted,test as for \code{\link[MASS]{dropterm}}
-#' @param reverse in \code{drop_term} should the rows be displayed in reverse order,
+#' @param decreasing in \code{drop_term} should the rows be displayed in decreasing order,
 #'        that is best to worst terms, from that of \code{\link[MASS]{dropterm}}?
 #'
 #' @return A fitted model object after stepwise refinement, or a data frame.
@@ -66,8 +66,8 @@ step_GIC <- function(object, ..., trace = 0,
 
 #' @rdname step_AIC
 #' @export
-drop_term <- function(object, ..., sorted = TRUE, test = default_test(object), k, 
-                      reverse = TRUE, delta  = TRUE) {
+drop_term <- function(object, ..., test = default_test(object), k, 
+                      sorted = TRUE, decreasing = TRUE, delta  = TRUE) {
   if(!isS4(object) && isTRUE(object$call$trace)) {
     warning("Trace detected. Turning it off.", immediate. = TRUE)
     call <- substitute(update(OBJ, trace = FALSE),
@@ -85,8 +85,8 @@ drop_term <- function(object, ..., sorted = TRUE, test = default_test(object), k
              aic =, 2)
     } else k
   }
-  out <- MASS::dropterm(object, ..., sorted = sorted, test = test, k = k)
-  if(reverse) out <- out[nrow(out):1, ]
+  out <- MASS::dropterm(object, ..., test = test, k = k)
+  if(sorted) out <- out[order(out$AIC, decreasing = decreasing), ]
   if(delta) {
     out$AIC <- out$AIC - out$AIC[rownames(out) == "<none>"]
     names(out) <- sub("AIC", "delta_AIC", names(out))
@@ -245,7 +245,7 @@ default_test.lm <- function(object) {
 
 
 .eliminate <- function(object, ..., trace) {
-  d <- drop_term(object, sorted = TRUE, ...)
+  d <- MASS::dropterm(object, sorted = TRUE, ...)
   if(trace)
     print(d)
   if(rownames(d)[1] %in% c("<none>", "1")) { ## hit the limit, do nothing

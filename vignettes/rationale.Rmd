@@ -20,6 +20,8 @@ knitr::opts_chunk$set(collapse = TRUE,
                       comment = "",
                       message = FALSE,
                       warning = FALSE)
+setHook("plot.new", list(), "replace")
+setHook("before.plot.new", rev(getHook("before.plot.new"))[1], "replace")
 ```
 
 # Preamble
@@ -211,14 +213,122 @@ drop_term(gic_model) %>% plot() %>% kable(booktabs = TRUE, digits = 3)
 The model is likely to be over-fitted.  To follow up on this we could look at profiles
 of the fitted terms as an informal way of model 'criticism'.
 
-```{r, fig.width=12, fig.height=6, fig.align="center", out.width="100%"}
+```{r, fig.width=14, fig.height=6, fig.align="center", out.width="100%"}
 capture.output(suppressWarnings({
-   g1 <- visreg(gic_model, "dis", plot = FALSE, ylim = c(5,50))
-   g2 <- visreg(gic_model, "lstat", plot = FALSE, ylim = c(5,50))
+   g1 <- visreg(gic_model, "dis", plot = FALSE)
+   g2 <- visreg(gic_model, "lstat", plot = FALSE)
    plot(g1, gg = TRUE) + plot(g2, gg = TRUE) 
-})) -> junk
+})) -> void
 ```
 
 The case for curvature appears to be fairly weak, in each case with departure from a straight line dependence
 depending on a relatively few observations with high values for the predictor.  (Notice how hard you have to work
 to prevent `visreg` from generating unwanted output.)
+
+### Non-gaussian models
+
+For a non-gaussian model consider the Quine data (`?quine`) example discussed in the _MASS_ book.  We begin by fitting
+a full negative binomial model and refine it using a stepwise algorithm.
+
+```{r}
+quine_full <- glm.nb(Days ~ Age*Eth*Sex*Lrn, data = quine)
+drop_term(quine_full) %>% kable(booktabs = TRUE, digits = 4)
+quine_gic <- step_GIC(quine_full)
+drop_term(quine_gic) %>% kable(booktabs = TRUE, digits = 4)
+```
+
+So GIC refinement has led to the same model as in the _MASS_ book, which in more understandable form would be
+written `Days ~ Sex/(Age + Eth*Lrn)`.  Note also that the default test is in this case
+the likelihood ratio test.  
+
+For a different example, consider an alternative way to model the MPG data, rather than transforming
+to an inverse scale, using a generalized linear model with an inverse link and a gamma response.
+
+```{r}
+mpg0 <- glm(MPG.city ~ Weight + Cylinders + EngineSize + Origin, 
+            family = Gamma(link = "inverse"), data = Cars93)
+drop_term(mpg0) %>% kable(booktabs = TRUE, digits = 3)
+mpg_gic <- step_down(mpg0, k = "bic")      ## simple backward elimination, mainly used for GLMMs
+drop_term(mpg_gic) %>% kable(booktabs = TRUE, digits = 3)
+```
+
+We can see something of how well the final model is performing by looking at a slightly larger
+model fitted on the fly in `ggplot`:
+
+```{r, fig.width=10, fig.height=7, fig.align="center", out.width="80%"}
+ggplot(Cars93) + aes(x = Weight, y = MPG.city, colour = Cylinders) + geom_point() +
+   geom_smooth(method = "glm", method.args = list(family = Gamma), formula = y ~ x) +
+   ylab("Miles per gallon (city driving)") + scale_colour_viridis_d()
+```
+
+## Scaling functions
+
+When a function such as `base::scale`, `stats:poly` or `splines:ns` (also exported from `MASSExtra`)
+is used in
+modelling it is important that the fitted model object has enough information so that when it is
+used in prediction for new data, the same transformation can be put in place with the new
+predictor variable values.  Setting up functions in such a way to enable this is a slightly
+tricky exercise.  It involves writing a method function for the S3 generic function
+`stats::makepredictcall`.  To illustrate this we have supplied four simple functions that
+employ the technique.  
+
+* `zs` ("z-score") is essentially the same as `base::scale` with the default argument settings,
+* `zu` allows re-scaling to a fixed range of [0, 1], often used in neural network models,
+* `zq` allows a quantile scaling where the location is the lower quartile and the scale is the inter-quartile range. 
+   In other words, the scaling is to [0,1] _within the box_ of a boxplot.  _(Go figure.)_
+* `zr` allows a "robust" scaling where the location is the median and the scale uses `stats::mad`
+
+The only real interest in these very minor convenience functions lies in how they are programmed.
+The following chain from the package code sets out the steps.
+
+```{r}
+## exported only as an S3 method
+MASSExtra:::makepredictcall.normalise  
+## an exported helper, but with a hidden name
+.normalise                             
+## the scale() equivalent
+zs                                     
+## the boxplot scaling, should anyone want it!
+zq                                     
+```
+
+# Postabmle
+
+In this final section we mainly give a list of functions provided by the package, and their origins.
+
+We begin by giving a list of functions in the `MASS` package which are _not_ re-exported from the
+`MASSExtra` package.  If you need any of these you will need either to attach the `MASS` package
+itself, or use the qualified form `MASS::<name>`.
+
+```{r, echo=FALSE}
+setdiff(getNamespaceExports("MASS"), getNamespaceExports("MASSExtra")) %>% sort() %>%  noquote()
+```
+
+The following objects _are_ re-exported from the `MASSExtra` package, and hence may be used
+directly, if needed.
+
+```{r, echo=FALSE}
+intersect(getNamespaceExports("MASS"), getNamespaceExports("MASSExtra")) %>% sort() %>%  noquote()
+```
+
+The following functions are _new_ to the `MASSExtra` package, some of which are obvious
+refinements of their `MASS` ancestors.
+
+```{r, echo=FALSE}
+setdiff(getNamespaceExports("MASSExtra"), getNamespaceExports("MASS")) %>% 
+   setdiff(getNamespaceExports("splines")) %>% 
+   grep("^[.]__T", ., invert = TRUE, value = TRUE) %>% ## exclude S4 class objects
+   sort() %>% noquote()
+```
+
+Finally the following objects are re-exported from `splines`:
+
+
+```{r, echo=FALSE}
+intersect(getNamespaceExports("MASSExtra"), getNamespaceExports("splines")) %>% sort() %>%  noquote()
+```
+
+
+Only four of the `MASS` data sets are included in `MASSExtra`, namely `Cars93`, `Boston`, `quine`
+and `whiteside`.  Other data sets from `MASS` itself will need to be accessed directly,
+e.g. `MASS::immer`.

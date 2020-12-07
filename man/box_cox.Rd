@@ -14,9 +14,23 @@ box_cox(object, ...)
 
 \S4method{box_cox}{lm}(object, ..., plotit, flap = 0.4)
 
-\method{plot}{box_cox}(x, ..., xlab = expression(lambda), ylab, col.lines = "steel blue")
+\method{plot}{box_cox}(
+  x,
+  ...,
+  las = 1,
+  xlab = expression(lambda),
+  ylab,
+  col.lines = "steel blue"
+)
 
-\method{print}{box_cox}(x, ..., xlab = expression(lambda), ylab, col.lines = "steel blue")
+\method{print}{box_cox}(
+  x,
+  ...,
+  las = 1,
+  xlab = expression(lambda),
+  ylab,
+  col.lines = "steel blue"
+)
 }
 \arguments{
 \item{object}{either a \code{"box_cox"} object, a formula,data pair, a linear model object or an xy-lixt}
@@ -31,7 +45,7 @@ box_cox(object, ...)
 
 \item{x}{a \code{"box_cox"} object to be displayed}
 
-\item{xlab, ylab}{as for \code{plot}}
+\item{xlab, ylab, las}{as for \code{plot}}
 
 \item{col.lines}{colour to use for indicator lines in the display}
 }

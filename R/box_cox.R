@@ -91,7 +91,7 @@ print.lambda <- function(x, ...) {
 #' @param flap fraction of the central 95\% notional confidence to expand the range of lambda for the display
 #' @param col.lines colour to use for indicator lines in the display
 #' @param x a \code{"box_cox"} object to be displayed
-#' @param xlab,ylab as for \code{plot}
+#' @param xlab,ylab,las as for \code{plot}
 #'
 #' @return an object of class \code{"box_cox"}
 #' @export
@@ -137,8 +137,9 @@ setMethod("box_cox", signature(object = "lm"),
 
 #' @rdname box_cox
 #' @export
-plot.box_cox <- function(x, ..., xlab = expression(lambda),
-                          ylab, col.lines = "steel blue") {
+plot.box_cox <- function(x, ..., las = 1,
+                         xlab = expression(lambda),
+                         ylab, col.lines = "steel blue") {
   if(missing(ylab))
     ylab <- expression({X[LR]^2}(lambda) ==
                          2*`{`*log*' '*italic(L)(hat(lambda)) -
@@ -159,7 +160,7 @@ plot.box_cox <- function(x, ..., xlab = expression(lambda),
   arrows(xx, yy, xx, pu[4], ## , length = 0.125, angle = 15
          lty = "solid", col = col.lines, length = 0.125, angle = 15)
   axis(1)
-  axis(2)
+  axis(2, las = las)
   at <- c(lims[1], lambda, lims[2])
   axis(3, at = at, labels = format(round(at, 3), digits = 3),
        cex.lab = 0.5, col.axis = col.lines)

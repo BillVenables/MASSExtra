@@ -16,10 +16,10 @@ step_GIC(object, ..., trace = 0, k = (2 + log(nobs(object)))/2)
 drop_term(
   object,
   ...,
-  sorted = TRUE,
   test = default_test(object),
   k,
-  reverse = TRUE,
+  sorted = TRUE,
+  decreasing = TRUE,
   delta = TRUE
 )
 }
@@ -32,7 +32,7 @@ drop_term(
 
 \item{sorted, test}{as for \code{\link[MASS]{dropterm}}}
 
-\item{reverse}{in \code{drop_term} should the rows be displayed in reverse order,
+\item{decreasing}{in \code{drop_term} should the rows be displayed in decreasing order,
 that is best to worst terms, from that of \code{\link[MASS]{dropterm}}?}
 }
 \value{
