@@ -5,6 +5,7 @@
 \alias{step_BIC}
 \alias{step_GIC}
 \alias{drop_term}
+\alias{add_term}
 \title{Stepwise model construction and inspection}
 \usage{
 step_AIC(object, ..., trace = 0, k = 2)
@@ -14,6 +15,16 @@ step_BIC(object, ..., trace = 0, k = max(2, log(nobs(object))))
 step_GIC(object, ..., trace = 0, k = (2 + log(nobs(object)))/2)
 
 drop_term(
+  object,
+  ...,
+  test = default_test(object),
+  k,
+  sorted = TRUE,
+  decreasing = TRUE,
+  delta = TRUE
+)
+
+add_term(
   object,
   ...,
   test = default_test(object),

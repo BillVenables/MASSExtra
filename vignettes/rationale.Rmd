@@ -282,14 +282,14 @@ The only real interest in these very minor convenience functions lies in how the
 The following chain from the package code sets out the steps.
 
 ```{r}
-## exported only as an S3 method
-MASSExtra:::makepredictcall.normalise  
-## an exported helper, but with a hidden name
-.normalise                             
-## the scale() equivalent
-zs                                     
-## the boxplot scaling, should anyone want it!
-zq                                     
+dput(MASSExtra:::makepredictcall.normalise)   ## exported only as an S3 method
+
+dput(.normalise)                              ## an exported helper, but with a hidden name
+
+dput(zs)                                      ## the scale() equivalent
+                   
+dput(zq)                                      ## the 'boxplot scaling', should anyone want it!
+             
 ```
 
 # Postabmle

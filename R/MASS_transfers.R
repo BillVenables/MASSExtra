@@ -57,3 +57,5 @@ MASS::stepAIC
 MASS::dropterm
 #' @export
 MASS::boxcox
+#' @export
+MASS::addterm
