@@ -46,8 +46,8 @@ fitted model object is used for prediction with new data.
 ### Masking `select` from other packages
 
 Finally, there is the perennial `select` problem.  When `MASS` is used
-with other packages, such as `dplyr` the `select` function can easly
-be masked, causing confusion with users.  `MASS::select` is rarely
+with other packages, such as `dplyr` the `select` function can easily
+be masked, causing confusion for users.  `MASS::select` is rarely
 used, but `dplyr::select` is fundamental.  There are standard ways of
 managing this kind of masking, but what we have done in `MASSExtra` is
 to export the more common functions used from `MASS` along with the
@@ -355,7 +355,7 @@ dput(zs)                                    ## the scale() equivalent
 dput(zq)                                    ## the 'boxplot scaling' (based on quantiles)
 ```
 
-# Postabmle
+# Postamble
 
 In this final section we mainly give a list of functions provided by
 the package, and their origins.
