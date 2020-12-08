@@ -184,8 +184,9 @@ plot.drop_term <- function(x, ..., horiz = TRUE,
   if(show.model) {
     h <- attr(x, "heading")
     h <- format(gsub("\n", "", h[!grepl("^Single ", h)]), justify = "left")
-    layout(cbind(1:2), heights = c(6, 1.25), widths = 1, respect = FALSE)
+    layout(cbind(2:1), heights = c(1, 5), widths = 1, respect = FALSE)
   }
+  oldPar <- par(mar = c(6, 6, 1, 1) + 0.1)
   if(horiz) {
     barplot(AIC, xlab = bquote(Delta*' '*.(pName)), horiz = TRUE,
             las = las, col = col, border = border, ...)
@@ -193,10 +194,11 @@ plot.drop_term <- function(x, ..., horiz = TRUE,
     barplot(AIC, ylab = bquote(Delta*' '*.(pName)), horiz = FALSE,
             las = las, col = col, border = border, ...)
   }
+  par(oldPar)
   if(show.model) {
-    oldPar <- par(mar = c(0, par("mar")[2], 0, 0))
+    oldPar <- par(mar = c(0, 6.1, 0, 0))
     plot.new()
-    legend("topleft", legend = h, bty = "n", cex = 1)
+    legend("bottomleft", legend = h, bty = "n", cex = 1)
     on.exit({par(oldPar); layout(matrix(1))})
   }
   invisible(x)

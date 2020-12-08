@@ -17,6 +17,5 @@ Suggests:
     rmarkdown,
     patchwork,
     visreg,
-    ggwebthemes,
     tidyverse
 VignetteBuilder: knitr
