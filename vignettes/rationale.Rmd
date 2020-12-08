@@ -355,7 +355,7 @@ dput(zs)                                    ## the scale() equivalent
 dput(zq)                                    ## the 'boxplot scaling' (based on quantiles)
 ```
 
-# Postabmle
+# Postamble
 
 In this final section we mainly give a list of functions provided by
 the package, and their origins.
