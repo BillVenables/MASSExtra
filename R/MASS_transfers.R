@@ -5,6 +5,10 @@ MASS::Null
 #' @export
 MASS::fractions
 #' @export
+MASS::gamma.dispersion
+#' @export
+MASS::gamma.shape
+#' @export
 MASS::ginv
 #' @export
 MASS::glm.convert
@@ -28,6 +32,8 @@ MASS::lqs
 MASS::negative.binomial
 #' @export
 MASS::polr
+#' @export
+MASS::qda
 #' @export
 MASS::rlm
 #' @export

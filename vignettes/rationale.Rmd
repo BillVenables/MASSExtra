@@ -225,6 +225,22 @@ The case for curvature appears to be fairly weak, in each case with departure fr
 depending on a relatively few observations with high values for the predictor.  (Notice how hard you have to work
 to prevent `visreg` from generating unwanted output.)
 
+There is also a function `add_term` which provides similar enhancements to those provided by `drop_term`.  In this
+case, of course, the consequences of _adding_ individual terms to the model are displayed, rather than of _dropping_
+them.  It follows that using `add_term` you will always need to provide a scope specification, that is, some specification
+of what extra terms are possible additions.  
+
+As an example, consider going from what we have called the `base_model` to the `big_model`, or at least what might
+be the initial step:
+
+```{r, fig.width=8, fig.height=6, fig.align="center", out.width="65%"}
+add_term(base_model, scope = formula(big_model), k = "gic") %>% 
+   plot() %>% kable(booktabs = TRUE, digits = 3)
+```
+
+So in this case, your best first step would be to _add_ the term which most decreases the criterion,
+that is, the one nearest the bottom of the table (or display).
+
 ### Non-gaussian models
 
 For a non-gaussian model consider the Quine data (`?quine`) example discussed in the _MASS_ book.  We begin by fitting
@@ -248,7 +264,7 @@ to an inverse scale, using a generalized linear model with an inverse link and a
 mpg0 <- glm(MPG.city ~ Weight + Cylinders + EngineSize + Origin, 
             family = Gamma(link = "inverse"), data = Cars93)
 drop_term(mpg0) %>% kable(booktabs = TRUE, digits = 3)
-mpg_gic <- step_down(mpg0, k = "bic")      ## simple backward elimination, mainly used for GLMMs
+mpg_gic <- step_down(mpg0, k = "gic")      ## simple backward elimination, mainly used for GLMMs
 drop_term(mpg_gic) %>% kable(booktabs = TRUE, digits = 3)
 ```
 
@@ -258,8 +274,12 @@ model fitted on the fly in `ggplot`:
 ```{r, fig.width=10, fig.height=7, fig.align="center", out.width="80%"}
 ggplot(Cars93) + aes(x = Weight, y = MPG.city, colour = Cylinders) + geom_point() +
    geom_smooth(method = "glm", method.args = list(family = Gamma), formula = y ~ x) +
-   ylab("Miles per gallon (city driving)") + scale_colour_viridis_d()
+   ylab("Miles per gallon (city driving)") + scale_colour_brewer(palette = "Dark2")
 ```
+The function `step_down` is a simple implementation of backward elimination with the sole virtue
+that it works for (Generalised) Linear Mixed Models, or at least for the fixed effect component
+of them, whereas other stepwise methods do not (yet).  As fitting GLMMs can be very slow, going
+through a full stepwise process could be very time consuming in any case.
 
 ## Scaling functions
 
@@ -282,14 +302,10 @@ The only real interest in these very minor convenience functions lies in how the
 The following chain from the package code sets out the steps.
 
 ```{r}
-dput(MASSExtra:::makepredictcall.normalise)   ## exported only as an S3 method
-
-dput(.normalise)                              ## an exported helper, but with a hidden name
-
-dput(zs)                                      ## the scale() equivalent
-                   
-dput(zq)                                      ## the 'boxplot scaling', should anyone want it!
-             
+dput(MASSExtra:::makepredictcall.normalise) ## exported only as an S3 method
+dput(.normalise)                            ## an exported helper, but with a hidden name
+dput(zs)                                    ## the scale() equivalent
+dput(zq)                                    ## the 'boxplot scaling' (based on quantiles)
 ```
 
 # Postabmle
