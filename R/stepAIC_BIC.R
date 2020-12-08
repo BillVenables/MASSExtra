@@ -11,11 +11,14 @@
 #' @param object as for \code{\link[MASS]{stepAIC}}
 #' @param ... additional arguments passed on to main function in \code{MASS}
 #' @param trace,k as for \code{\link[MASS]{stepAIC}}
-#' @param sorted,test as for \code{\link[MASS]{dropterm}}
+#' @param sorted,test as for \code{\link[MASS]{dropterm}} and \code{\link[MASS]{addterm}}
 #' @param decreasing in \code{drop_term} should the rows be displayed in decreasing order,
 #'        that is best to worst terms, from that of \code{\link[MASS]{dropterm}}?
+#' @param delta Should the criterion be displayed (FALSE) or the change in the
+#'        in the criterion relative to the present model (TRUE)?
 #'
-#' @return A fitted model object after stepwise refinement, or a data frame.
+#' @return A fitted model object after stepwise refinement, or a data frame with
+#'         extra class membership for single term functions.
 #' @export
 #'
 #' @examples

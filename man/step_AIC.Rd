@@ -41,13 +41,17 @@ add_term(
 
 \item{trace, k}{as for \code{\link[MASS]{stepAIC}}}
 
-\item{sorted, test}{as for \code{\link[MASS]{dropterm}}}
+\item{sorted, test}{as for \code{\link[MASS]{dropterm}} and \code{\link[MASS]{addterm}}}
 
 \item{decreasing}{in \code{drop_term} should the rows be displayed in decreasing order,
 that is best to worst terms, from that of \code{\link[MASS]{dropterm}}?}
+
+\item{delta}{Should the criterion be displayed (FALSE) or the change in the
+in the criterion relative to the present model (TRUE)?}
 }
 \value{
-A fitted model object after stepwise refinement, or a data frame.
+A fitted model object after stepwise refinement, or a data frame with
+        extra class membership for single term functions.
 }
 \description{
 Front-ends to \code{\link[MASS]{stepAIC}} and \code{\link[MASS]{dropterm}} with changed defaults.
