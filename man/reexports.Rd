@@ -5,8 +5,6 @@
 \alias{reexports}
 \alias{Null}
 \alias{fractions}
-\alias{gamma.dispersion}
-\alias{gamma.shape}
 \alias{ginv}
 \alias{glm.convert}
 \alias{glm.nb}
@@ -43,7 +41,7 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{MASS}{\code{\link[MASS]{Null}}, \code{\link[MASS]{addterm}}, \code{\link[MASS]{boxcox}}, \code{\link[MASS]{dropterm}}, \code{\link[MASS]{fractions}}, \code{\link[MASS]{gamma.dispersion}}, \code{\link[MASS:gamma.shape.glm]{gamma.shape}}, \code{\link[MASS]{ginv}}, \code{\link[MASS]{glm.convert}}, \code{\link[MASS]{glm.nb}}, \code{\link[MASS]{glmmPQL}}, \code{\link[MASS]{isoMDS}}, \code{\link[MASS]{kde2d}}, \code{\link[MASS]{lda}}, \code{\link[MASS]{lm.gls}}, \code{\link[MASS]{logtrans}}, \code{\link[MASS]{lqs}}, \code{\link[MASS]{negative.binomial}}, \code{\link[MASS]{polr}}, \code{\link[MASS]{qda}}, \code{\link[MASS]{rlm}}, \code{\link[MASS]{rnegbin}}, \code{\link[MASS]{sammon}}, \code{\link[MASS]{stdres}}, \code{\link[MASS]{stepAIC}}, \code{\link[MASS]{studres}}, \code{\link[MASS]{theta.md}}, \code{\link[MASS:theta.md]{theta.ml}}, \code{\link[MASS:theta.md]{theta.mm}}, \code{\link[MASS]{ucv}}, \code{\link[MASS]{width.SJ}}}
+  \item{MASS}{\code{\link[MASS]{Null}}, \code{\link[MASS]{addterm}}, \code{\link[MASS]{boxcox}}, \code{\link[MASS]{dropterm}}, \code{\link[MASS]{fractions}}, \code{\link[MASS]{ginv}}, \code{\link[MASS]{glm.convert}}, \code{\link[MASS]{glm.nb}}, \code{\link[MASS]{glmmPQL}}, \code{\link[MASS]{isoMDS}}, \code{\link[MASS]{kde2d}}, \code{\link[MASS]{lda}}, \code{\link[MASS]{lm.gls}}, \code{\link[MASS]{logtrans}}, \code{\link[MASS]{lqs}}, \code{\link[MASS]{negative.binomial}}, \code{\link[MASS]{polr}}, \code{\link[MASS]{qda}}, \code{\link[MASS]{rlm}}, \code{\link[MASS]{rnegbin}}, \code{\link[MASS]{sammon}}, \code{\link[MASS]{stdres}}, \code{\link[MASS]{stepAIC}}, \code{\link[MASS]{studres}}, \code{\link[MASS]{theta.md}}, \code{\link[MASS:theta.md]{theta.ml}}, \code{\link[MASS:theta.md]{theta.mm}}, \code{\link[MASS]{ucv}}, \code{\link[MASS]{width.SJ}}}
 
   \item{splines}{\code{\link[splines]{bs}}, \code{\link[splines]{ns}}}
 }}

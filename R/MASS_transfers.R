@@ -5,10 +5,6 @@ MASS::Null
 #' @export
 MASS::fractions
 #' @export
-MASS::gamma.dispersion
-#' @export
-MASS::gamma.shape
-#' @export
 MASS::ginv
 #' @export
 MASS::glm.convert
