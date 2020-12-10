@@ -4,7 +4,7 @@ Title: Some 'MASS' Enhancements
 Version: 1.0.2
 Author: Bill Venables
 Maintainer: Bill Venables <bill.venables@gmail.com>
-Description: This package provided some extensions 
+Description: Some enhancements, extensions and additions
     to the facilities of the recommended 'MASS' package 
     that are useful mainly for teaching purposes, with
     more convenient default settings and user interfaces.
