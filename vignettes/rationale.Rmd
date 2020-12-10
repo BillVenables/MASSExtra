@@ -15,13 +15,20 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r, include = FALSE}
+```{r presetup, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE,
                       comment = "",
                       message = FALSE,
                       warning = FALSE)
+old_plot_new <- getHook("plot.new")
+old_before_plot_new <- getHook("before.plot.new")
 setHook("plot.new", list(), "replace")
-setHook("before.plot.new", rev(getHook("before.plot.new"))[1], "replace")
+setHook("before.plot.new", rev(old_before_plot_new)[1], "replace")
+old_par <- par(no.readonly = TRUE)
+old_options <- options()
+
+library(ggplot2)
+old_theme <- theme_get()
 ```
 
 # Preamble
@@ -58,7 +65,7 @@ The remainder of this document will do a walk-through of some of the
 new functions provided by the package.  We begin by setting the
 computational context:
 
-```{r}
+```{r packages_etc}
 suppressPackageStartupMessages({
   library(visreg)
   library(knitr)
@@ -397,3 +404,12 @@ intersect(getNamespaceExports("MASSExtra"), getNamespaceExports("splines")) %>% 
 Only four of the `MASS` data sets are included in `MASSExtra`, namely
 `Cars93`, `Boston`, `quine` and `whiteside`.  Other data sets from
 `MASS` itself will need to be accessed directly, e.g. `MASS::immer`.
+
+```{r cleanup, include=FALSE}
+setHook("plot.new", old_plot_new, "replace")
+setHook("before.plot.new", old_before_plot_new, "replace")
+par(old_par)
+options(old_options)
+theme_set(old_theme)
+```
+
