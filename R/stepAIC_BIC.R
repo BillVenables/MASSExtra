@@ -168,6 +168,8 @@ plot.drop_term <- function(x, ..., horiz = TRUE,
                           show.model = TRUE) {
   pName <- attr(x, "pName")
   stopifnot(isTRUE(any(grepl(pName, names(x)))))
+  old_par <- par(no.readonly = TRUE)
+  on.exit(par(old_par))
   # names(x)[grep(pName, names(x))[1]] <- pName ## remove any decoration such as "delta"
   AIC <- x[[which(grepl(pName, names(x)))[1]]]
   names(AIC) <- rownames(x)
@@ -178,15 +180,15 @@ plot.drop_term <- function(x, ..., horiz = TRUE,
   if(is.character(border) && length(border) == 2) {
     border <- ifelse(AIC < 0, border[1], border[2])
   }
-  pmar <- pmax(par("mar"), (if(horiz) c(4,6,1,1) else c(6,2,1,1)) + 0.1)
-  oldPar <- par(mar = pmar, cex.axis = 0.8)
-  on.exit(par(oldPar))
+  pmar <- pmax(par("mar"), (if(horiz) c(4,6,1,1) else c(6,4,1,1)) + 0.1)
+  pmar[3:4] <- 1.1
+  par(mar = pmar, cex.axis = 0.8)
   if(show.model) {
     h <- attr(x, "heading")
     h <- format(gsub("\n", "", h[!grepl("^Single ", h)]), justify = "left")
-    layout(cbind(2:1), heights = c(1, 5), widths = 1, respect = FALSE)
+    layout(cbind(2:1), heights = c(1, 6), widths = 1, respect = FALSE)
+    on.exit(layout(matrix(1)), add = TRUE)
   }
-  oldPar <- par(mar = c(6, 6, 1, 1) + 0.1)
   if(horiz) {
     barplot(AIC, xlab = bquote(Delta*' '*.(pName)), horiz = TRUE,
             las = las, col = col, border = border, ...)
@@ -194,12 +196,10 @@ plot.drop_term <- function(x, ..., horiz = TRUE,
     barplot(AIC, ylab = bquote(Delta*' '*.(pName)), horiz = FALSE,
             las = las, col = col, border = border, ...)
   }
-  par(oldPar)
   if(show.model) {
-    oldPar <- par(mar = c(0, 6.1, 0, 0))
+    par(mar = c(0, 0, 0, 0))
     plot.new()
-    legend("bottomleft", legend = h, bty = "n", cex = 1)
-    on.exit({par(oldPar); layout(matrix(1))})
+    legend("bottomleft", legend = h, bty = "n", cex = 0.8)
   }
   invisible(x)
 }
@@ -336,15 +336,17 @@ step_down <- function(object, ..., trace = FALSE, k) {
              aic =, 2)
     } else k
   }
-  oldOpt <- options(warn = -1)
-  on.exit(options(oldOpt))
+  # oldOpt <- options(warn = -1)
+  # on.exit(options(oldOpt))
 
   obj <- object
-  repeat {
-    tmp <- .eliminate(obj, ..., trace = trace, k = k)
-    if(identical(tmp, obj)) break
-    obj <- tmp
-  }
+  suppressWarnings({
+    repeat {
+      tmp <- .eliminate(obj, ..., trace = trace, k = k)
+      if(identical(tmp, obj)) break
+      obj <- tmp
+    }
+  })
   attr(obj, "penalty") <- k
   obj
 }
