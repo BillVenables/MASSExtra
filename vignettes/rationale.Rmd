@@ -27,7 +27,7 @@ setHook("before.plot.new", rev(old_before_plot_new)[1], "replace")
 old_par <- par(no.readonly = TRUE)
 old_options <- options()
 
-library(ggplot2)
+library(tidyverse)
 old_theme <- theme_get()
 ```
 
