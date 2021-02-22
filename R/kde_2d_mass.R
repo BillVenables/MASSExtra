@@ -189,8 +189,21 @@ NULL
 #' kdez <- kde_2d(z, y_limits = c(0, Inf), n = 512, kernel = "opt", cut = 0)
 #' plot(kdez)
 #' contour(kdez, add = TRUE)
-#' with(kdez, persp(x, y, 10*z, theta = 135, phi = 15, col="grey", 
+#' with(kdez, persp(x, y, 10*z, theta = 135, phi = 15, col="sky blue", 
 #'                  border = "transparent", shade = 0.5, scale = FALSE))
+#' krc <- with(Boston, {
+#'   criminality <- log(crim)
+#'   spaciousness <- sqrt(rm)
+#'   kde_2d(criminality, spaciousness, n = 512, kernel = "opt")
+#' })
+#' plot(krc, col = hcl.colors(25, "ylOrRd", rev = TRUE),
+#'      xlab = expression(italic(Criminality)),
+#'      ylab = expression(italic(Spaciousness)))
+#' contour(krc, col = "dark green", add = TRUE)
+#' 
+#' with(krc, persp(x, 10*y, 3*z, border="transparent", col = "sky blue",
+#'                 theta = 15, phi = 19, r = 100, scale = FALSE, shade = TRUE, 
+#'                 xlab = "Criminality", ylab = "Spaciousness", zlab = "kde"))
 kde_2d <- function(x, y = NULL, bw = list(x = bw.nrd0, y = bw.nrd0), 
                    kernel = c("gaussian", 
                               "biweight", "cosine", "epanechnikov", "logistic", 
