@@ -32,7 +32,7 @@ ceiling_os <- function(x, o = 0, s = 1) o + s*ceiling((x - o)/s)
 #' @param fold  Logical value: should the kde be estimated beyond the prescribed limits
 #'              for the result and 'folded back' to emulate the effect of having known
 #'              range boundaries for the underlying distribution?
-#' @param col,xlab,ylab base graphics parameters
+#' @param las,col,xlab,ylab base graphics parameters
 #' @param ... currently ignored, except in method functions
 #'
 #' @return A list of results specifying the result of the kde computation, of class \code{"kde_1d"}
@@ -147,7 +147,49 @@ plot.kde_1d <- function(x, ..., col = "steel blue", las = 1,
   invisible(x)
 }
 
+#' @import grDevices
+NULL
 
+#' A Two-dimensional Kernel Density Estimate
+#' 
+#' A pure R implementation of an approximate two-dimensional kde computation, where
+#' the approximation depends on the x- and y-resolution being fine, i.e. the number
+#' of both x- and y-points should be reasonably large, at least 256.  The coding
+#' follows the same idea as used in \code{\link[MASS]{kde2d}}, but scales much better
+#' for large data sets. 
+#'
+#' @param x,y Numeric vectors of the same length specified in any way acceptable
+#'            to \code{\link[grDevices]{xy.coords}}.  In methods, \code{x} will be
+#'            an object of class \code{"kde_2d"}
+#' @param bw bandwidths. May be a numeric vector of length 1 or 2, or a function, 
+#'           or list of two bandwidth computation functions.  Short entities will
+#'           be repeated to length 1.  The first relates to the x-coordinate and
+#'           the second to the y.
+#' @param kernel As for \code{\link{kde_1d}} though 1 or 2 values may be specified
+#'               relating to x- and y-coordinates respectively.  Short entities will
+#'               be repeated to length 2
+#' @param n positive integer vector of length 1 or 2 specifying the resolution required
+#'          in the x- and y-coordinates respectively.  Short values will be repeated to
+#'          length 2.
+#' @param x_limits,y_limits Numeric vectors specifying the limits required for the result
+#' @param cut The number of bandwidths beyond the x- and y-range limits for the resuls.
+#' @param na.rm  Should missing values be silently removed?
+#' @param adjust A factor to adjust both bandwidths to regulate smoothness
+#' @param las,col,xlab,ylab base graphics parameters
+#' @param ... currently ignored, except in method functions
+#'
+#' @return A list of results of class \code{"kde_2d"}.  The result may be used directly
+#'         in \code{\link[graphics]{image}} or \code{\link[graphics]{contour}}.
+#' @export
+#'
+#' @examples
+#' set.seed(1234)
+#' z <- complex(real = rnorm(100000), imaginary = abs(rnorm(100000)))
+#' kdez <- kde_2d(z, y_limits = c(0, Inf), n = 512, kernel = "opt", cut = 0)
+#' plot(kdez)
+#' contour(kdez, add = TRUE)
+#' with(kdez, persp(x, y, 10*z, theta = 135, phi = 15, col="grey", 
+#'                  border = "transparent", shade = 0.5, scale = FALSE))
 kde_2d <- function(x, y = NULL, bw = list(x = bw.nrd0, y = bw.nrd0), 
                    kernel = c("gaussian", 
                               "biweight", "cosine", "epanechnikov", "logistic", 
@@ -157,7 +199,7 @@ kde_2d <- function(x, y = NULL, bw = list(x = bw.nrd0, y = bw.nrd0),
                    x_limits = c(rx[1] - cut*bw["x"], rx[2] + cut*bw["x"]), 
                    y_limits = c(ry[1] - cut*bw["y"], ry[2] + cut*bw["y"]),
                    cut = 1, na.rm = FALSE, adjust = 53/45, ...) {
-  xy <- xy.coords(x, y)
+  xy <- grDevices::xy.coords(x, y)
   x <- xy$x
   y <- xy$y
   if(na.rm) {
@@ -194,6 +236,8 @@ kde_2d <- function(x, y = NULL, bw = list(x = bw.nrd0, y = bw.nrd0),
   n <- setNames(rep(n, length.out = 2), nnames)
   rx <- range(x)
   ry <- range(y)
+  x_limits <- c(max(x_limits[1], rx[1]-5*bw["x"]), min(x_limits[2], rx[2]+5*bw["x"]))
+  y_limits <- c(max(y_limits[1], ry[1]-5*bw["y"]), min(y_limits[2], ry[2]+5*bw["y"]))
   xo <- seq(x_limits[1], x_limits[2], length.out = n["x"])
   yo <- seq(y_limits[1], y_limits[2], length.out = n["y"])
   dx <- diff(x_limits)/(n["x"] - 1)
@@ -215,6 +259,8 @@ kde_2d <- function(x, y = NULL, bw = list(x = bw.nrd0, y = bw.nrd0),
             class = "kde_2d")
 }
 
+#' @rdname kde_2d
+#' @export
 print.kde_2d <- function(x, ...) {
   cat("A Two-dimensional Kernel Density Estimate\n\n")
   labs <- c("Responses", "Sample size", "Ranges", "Bandwidths", "Resolution")
@@ -234,6 +280,8 @@ print.kde_2d <- function(x, ...) {
   invisible(x)
 }
 
+#' @rdname kde_2d
+#' @export
 plot.kde_2d <- function(x, ..., las = 1,
                         xlab = bquote(italic(.(x$data_name[["x"]]))),
                         ylab = bquote(italic(.(x$data_name[["y"]]))),

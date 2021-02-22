@@ -94,7 +94,7 @@ range boundaries for the underlying distribution?}
 
 \item{...}{currently ignored, except in method functions}
 
-\item{col, xlab, ylab}{base graphics parameters}
+\item{las, col, xlab, ylab}{base graphics parameters}
 }
 \value{
 A list of results specifying the result of the kde computation, of class \code{"kde_1d"}
