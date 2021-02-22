@@ -1,7 +1,7 @@
 Package: MASSExtra
 Type: Package
 Title: Some 'MASS' Enhancements
-Version: 1.0.2
+Version: 1.1.0
 Author: Bill Venables
 Maintainer: Bill Venables <bill.venables@gmail.com>
 Description: Some enhancements, extensions and additions
