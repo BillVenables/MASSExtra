@@ -3,10 +3,10 @@ title: "Rationale for MASSExtra"
 author: "Bill Venables"
 date: "`r Sys.Date()`"
 output:
-  html_vignette: null
   pdf_document:
     includes:
       in_header: header.tex
+  html_vignette: null
   html_document:
     df_print: paged
 vignette: >

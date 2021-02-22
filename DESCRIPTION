@@ -15,7 +15,12 @@ Description: Some enhancements, extensions and additions
     orthogonalisation and generalised eigenvalue problems.  
 License: GPL-2 | GPL-3
 Depends: R (>= 3.5.0)
-Imports: methods, graphics, stats, MASS
+Imports: 
+    methods,
+    graphics,
+    stats,
+    MASS,
+    utils
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
