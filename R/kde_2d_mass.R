@@ -33,6 +33,7 @@ ceiling_os <- function(x, o = 0, s = 1) o + s*ceiling((x - o)/s)
 #'              for the result and 'folded back' to emulate the effect of having known
 #'              range boundaries for the underlying distribution?
 #' @param las,col,xlab,ylab base graphics parameters
+#' @param mean,sd Numeric values: mean and standard deviation of the kernel distribution.
 #' @param ... currently ignored, except in method functions
 #'
 #' @return A list of results specifying the result of the kde computation, of class \code{"kde_1d"}
