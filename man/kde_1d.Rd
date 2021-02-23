@@ -4,18 +4,6 @@
 \alias{kde_1d}
 \alias{print.kde_1d}
 \alias{plot.kde_1d}
-\alias{kernelBiweight}
-\alias{kernelCosine}
-\alias{kernelEpanechnikov}
-\alias{kernelGaussian}
-\alias{kernelLogistic}
-\alias{kernelOptCosine}
-\alias{kernelRectangular}
-\alias{kernelSquaredCosine}
-\alias{kernelTriangular}
-\alias{kernelTricube}
-\alias{kernelTriweight}
-\alias{kernelUniform}
 \title{One-dimensional Kernel Density Estimate}
 \usage{
 kde_1d(
@@ -42,30 +30,6 @@ kde_1d(
   xlab = bquote(x == italic(.(x$data_name))),
   ylab = expression(kde(italic(x)))
 )
-
-kernelBiweight(x, mean = 0, sd = 1)
-
-kernelCosine(x, mean = 0, sd = 1)
-
-kernelEpanechnikov(x, mean = 0, sd = 1)
-
-kernelGaussian(x, mean = 0, sd = 1)
-
-kernelLogistic(x, mean = 0, sd = 1)
-
-kernelOptCosine(x, mean = 0, sd = 1)
-
-kernelRectangular(x, mean = 0, sd = 1)
-
-kernelSquaredCosine(x, mean = 0, sd = 1)
-
-kernelTriangular(x, mean = 0, sd = 1)
-
-kernelTricube(x, mean = 0, sd = 1)
-
-kernelTriweight(x, mean = 0, sd = 1)
-
-kernelUniform(x, mean = 0, sd = 1)
 }
 \arguments{
 \item{x}{A numeric vector for which the kde is required or (in methods)

@@ -29,7 +29,7 @@ kde_2d(
   las = 1,
   xlab = bquote(italic(.(x$data_name[["x"]]))),
   ylab = bquote(italic(.(x$data_name[["y"]]))),
-  col = hcl.colors(50, rev = TRUE)
+  col = hcl.colors(50, "YlOrRd", rev = TRUE)
 )
 }
 \arguments{
@@ -86,12 +86,12 @@ krc <- with(Boston, {
   spaciousness <- sqrt(rm)
   kde_2d(criminality, spaciousness, n = 512, kernel = "opt")
 })
-plot(krc, col = hcl.colors(25, "ylOrRd", rev = TRUE),
+plot(krc, col = hcl.colors(25, rev = TRUE),
      xlab = expression(italic(Criminality)),
      ylab = expression(italic(Spaciousness)))
 contour(krc, col = "dark green", add = TRUE)
 
 with(krc, persp(x, 10*y, 3*z, border="transparent", col = "sky blue",
-                theta = 15, phi = 19, r = 100, scale = FALSE, shade = TRUE, 
+                theta = 30, phi = 15, r = 100, scale = FALSE, shade = TRUE, 
                 xlab = "Criminality", ylab = "Spaciousness", zlab = "kde"))
 }

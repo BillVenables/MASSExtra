@@ -196,13 +196,13 @@ NULL
 #'   spaciousness <- sqrt(rm)
 #'   kde_2d(criminality, spaciousness, n = 512, kernel = "opt")
 #' })
-#' plot(krc, col = hcl.colors(25, "ylOrRd", rev = TRUE),
+#' plot(krc, col = hcl.colors(25, rev = TRUE),
 #'      xlab = expression(italic(Criminality)),
 #'      ylab = expression(italic(Spaciousness)))
 #' contour(krc, col = "dark green", add = TRUE)
 #' 
 #' with(krc, persp(x, 10*y, 3*z, border="transparent", col = "sky blue",
-#'                 theta = 15, phi = 19, r = 100, scale = FALSE, shade = TRUE, 
+#'                 theta = 30, phi = 15, r = 100, scale = FALSE, shade = TRUE, 
 #'                 xlab = "Criminality", ylab = "Spaciousness", zlab = "kde"))
 kde_2d <- function(x, y = NULL, bw = list(x = bw.nrd0, y = bw.nrd0), 
                    kernel = c("gaussian", 
@@ -232,7 +232,9 @@ kde_2d <- function(x, y = NULL, bw = list(x = bw.nrd0, y = bw.nrd0),
     kernel <- rep(kernel, length.out = 2)
     substring(kernel, 0, 1) <- toupper(substring(kernel, 0, 1))
     kernel <- paste0("kernel", kernel)
-    kernel <- lapply(kernel, get, mode = "function")
+    # kernel <- lapply(kernel, get, mode = "function")
+    kernel = list(x = get(kernel[1], mode = "function"),
+                  y = get(kernel[2], mode = "function"))
   } else if(is.function(kernel)) {
     if(length(kernel) == 1) {
       kernel <- rep(list(kernel), 2)
@@ -299,89 +301,92 @@ print.kde_2d <- function(x, ...) {
 plot.kde_2d <- function(x, ..., las = 1,
                         xlab = bquote(italic(.(x$data_name[["x"]]))),
                         ylab = bquote(italic(.(x$data_name[["y"]]))),
-                        col = hcl.colors(50, rev = TRUE)) {
+                        col = hcl.colors(50, "YlOrRd", rev = TRUE)) {
   with(x, {
     image(x, y, z, las = las, xlab = xlab, ylab = ylab, col = col, ...)
   })
   invisible(x)
 }
 
-#' @rdname kde_1d
-#' @export
-kernelBiweight <- function(x, mean = 0, sd = 1) {
-  h <- sqrt(7)*sd
-  ifelse((z <- abs(x-mean)) < h, 15/16*(1 - (z/h)^2)^2/h, 0)
-}
+#' @import demoKde
+NULL
 
-#' @rdname kde_1d
-#' @export
-kernelCosine <- function(x, mean = 0, sd = 1) {
-  h <- sqrt(1/(1-8/pi^2))*sd
-  ifelse((z <- abs(x-mean)) < h, pi/4*cos((pi*z)/(2*h))/h, 0)
-}
-
-#' @rdname kde_1d
-#' @export
-kernelEpanechnikov <- function(x, mean = 0, sd = 1) {
-  h <- sqrt(5)*sd
-  ifelse((z <- abs(x-mean)) < h, 3/4*(1 - (z/h)^2)/h, 0)
-}
-
-#' @rdname kde_1d
-#' @export
-kernelGaussian <- function(x, mean = 0, sd = 1)
-  dnorm(x, mean = mean, sd = sd)
-
-#' @rdname kde_1d
-#' @export
-kernelLogistic <- function(x, mean = 0, sd = 1)
-  stats::dlogis(x, mean, sqrt(3)/pi*sd)
-
-#' @rdname kde_1d
-#' @export
-kernelOptCosine <- function(x, mean = 0, sd = 1) {
-  h <- sqrt(1/(1-8/pi^2))*sd
-  ifelse((z <- abs(x-mean)) < h, pi/4*cos((pi*z)/(2*h))/h, 0)
-}
-
-#' @rdname kde_1d
-#' @export
-kernelRectangular <- function(x, mean = 0, sd = 1) {
-  h <- sqrt(3)*sd
-  ifelse(abs(x-mean) < h, 1/(2*h), 0)
-}
-
-#' @rdname kde_1d
-#' @export
-kernelSquaredCosine <- function(x, mean = 0, sd = 1) {
-  h <- sqrt(3/(1-6/pi^2))*sd
-  ifelse((z <- abs(x-mean)) < h, cos(pi*z/(2*h))^2/h, 0)
-}
-
-#' @rdname kde_1d
-#' @export
-kernelTriangular <- function(x, mean = 0, sd = 1) {
-  h <- sqrt(24)*sd/2
-  ifelse((z <- abs(x-mean)) < h, (1 - z/h)/h, 0)
-}
-
-#' @rdname kde_1d
-#' @export
-kernelTricube <- function(x, mean = 0, sd = 1) {
-  h <- sqrt(243/35)*sd
-  ifelse((z <- abs(x - mean)) < h, 70/81*(1 - (z/h)^3)^3/h, 0)
-}
-
-#' @rdname kde_1d
-#' @export
-kernelTriweight <- function(x, mean = 0, sd = 1) {
-  h <- sqrt(9)*sd
-  ifelse((z <- abs(x-mean)) < h, 35/32*(1 - (z/h)^2)^3/h, 0)
-}
-
-#' @rdname kde_1d
-#' @export
-kernelUniform <- function(x, mean = 0, sd = 1) {
-  h <- sqrt(3)*sd
-  ifelse(abs(x-mean) < h, 1/(2*h), 0)
-}
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelBiweight <- function(x, mean = 0, sd = 1) {
+#'   h <- sqrt(7)*sd
+#'   ifelse((z <- abs(x-mean)) < h, 15/16*(1 - (z/h)^2)^2/h, 0)
+#' }
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelCosine <- function(x, mean = 0, sd = 1) {
+#'   h <- sqrt(1/(1-8/pi^2))*sd
+#'   ifelse((z <- abs(x-mean)) < h, pi/4*cos((pi*z)/(2*h))/h, 0)
+#' }
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelEpanechnikov <- function(x, mean = 0, sd = 1) {
+#'   h <- sqrt(5)*sd
+#'   ifelse((z <- abs(x-mean)) < h, 3/4*(1 - (z/h)^2)/h, 0)
+#' }
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelGaussian <- function(x, mean = 0, sd = 1)
+#'   dnorm(x, mean = mean, sd = sd)
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelLogistic <- function(x, mean = 0, sd = 1)
+#'   stats::dlogis(x, mean, sqrt(3)/pi*sd)
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelOptCosine <- function(x, mean = 0, sd = 1) {
+#'   h <- sqrt(1/(1-8/pi^2))*sd
+#'   ifelse((z <- abs(x-mean)) < h, pi/4*cos((pi*z)/(2*h))/h, 0)
+#' }
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelRectangular <- function(x, mean = 0, sd = 1) {
+#'   h <- sqrt(3)*sd
+#'   ifelse(abs(x-mean) < h, 1/(2*h), 0)
+#' }
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelSquaredCosine <- function(x, mean = 0, sd = 1) {
+#'   h <- sqrt(3/(1-6/pi^2))*sd
+#'   ifelse((z <- abs(x-mean)) < h, cos(pi*z/(2*h))^2/h, 0)
+#' }
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelTriangular <- function(x, mean = 0, sd = 1) {
+#'   h <- sqrt(24)*sd/2
+#'   ifelse((z <- abs(x-mean)) < h, (1 - z/h)/h, 0)
+#' }
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelTricube <- function(x, mean = 0, sd = 1) {
+#'   h <- sqrt(243/35)*sd
+#'   ifelse((z <- abs(x - mean)) < h, 70/81*(1 - (z/h)^3)^3/h, 0)
+#' }
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelTriweight <- function(x, mean = 0, sd = 1) {
+#'   h <- sqrt(9)*sd
+#'   ifelse((z <- abs(x-mean)) < h, 35/32*(1 - (z/h)^2)^3/h, 0)
+#' }
+#' 
+#' #' @rdname kde_1d
+#' #' @export
+#' kernelUniform <- function(x, mean = 0, sd = 1) {
+#'   h <- sqrt(3)*sd
+#'   ifelse(abs(x-mean) < h, 1/(2*h), 0)
+#' }
