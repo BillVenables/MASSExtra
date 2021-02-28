@@ -184,11 +184,12 @@ NULL
 #'
 #' @examples
 #' set.seed(1234)
-#' z <- complex(real = rnorm(100000), imaginary = abs(rnorm(100000)))
+#' z <- complex(real = rnorm(1000), imaginary = abs(rnorm(1000)))
 #' kdez <- kde_2d(z, y_limits = c(0, Inf), n = 512, kernel = "opt", cut = 0)
 #' plot(kdez)
 #' contour(kdez, add = TRUE)
-#' with(kdez, persp(x, y, 10*z, theta = 135, phi = 15, col="sky blue", 
+#' points(z, pch = ".", cex = 2)
+#' with(kdez, persp(3*x, 2*y, 10*z, theta = 135, phi = 15, col="sky blue", r = 100,
 #'                  border = "transparent", shade = 0.5, scale = FALSE))
 #' krc <- with(Boston, {
 #'   criminality <- log(crim)
