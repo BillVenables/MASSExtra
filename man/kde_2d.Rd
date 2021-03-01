@@ -74,25 +74,15 @@ follows the same idea as used in \code{\link[MASS]{kde2d}}, but scales much bett
 for large data sets.
 }
 \examples{
-set.seed(1234)
-z <- complex(real = rnorm(1000), imaginary = abs(rnorm(1000)))
-kdez <- kde_2d(z, y_limits = c(0, Inf), n = 512, kernel = "opt", cut = 0)
-plot(kdez)
-contour(kdez, add = TRUE)
-points(z, pch = ".", cex = 2)
-with(kdez, persp(3*x, 2*y, 10*z, theta = 135, phi = 15, col="sky blue", r = 100,
-                 border = "transparent", shade = 0.5, scale = FALSE))
 krc <- with(Boston, {
   criminality <- log(crim)
   spaciousness <- sqrt(rm)
-  kde_2d(criminality, spaciousness, n = 512, kernel = "opt")
+  kde_2d(criminality, spaciousness, n = 128, kernel = "biweight")
 })
-plot(krc, col = hcl.colors(25, rev = TRUE),
-     xlab = expression(italic(Criminality)),
-     ylab = expression(italic(Spaciousness)))
+plot(krc, xlab = expression(italic(Criminality)), ylab = expression(italic(Spaciousness)))
 contour(krc, col = "dark green", add = TRUE)
 
-with(krc, persp(x, 10*y, 3*z, border="transparent", col = "sky blue",
-                theta = 30, phi = 15, r = 100, scale = FALSE, shade = TRUE, 
-                xlab = "Criminality", ylab = "Spaciousness", zlab = "kde"))
+with(krc, persp(x, 10*y, 3*z, border="transparent", col = "powder blue",
+                theta = 30, phi = 15, r = 20, scale = FALSE, shade = TRUE, 
+                xlab = "Criminality", ylab = "Spaciousness", zlab = "density"))
 }
