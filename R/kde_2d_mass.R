@@ -189,7 +189,8 @@ NULL
 #'   kde_2d(criminality, spaciousness, n = 128, kernel = "biweight")
 #' })
 #' plot(krc, xlab = expression(italic(Criminality)), ylab = expression(italic(Spaciousness)))
-#' contour(krc, col = "dark green", add = TRUE)
+#' contour(krc, add = TRUE, lwd = 0.5)
+#' points(sqrt(rm) ~ log(crim), Boston, pch = ".", cex = 2, col = "dark green")
 #' 
 #' with(krc, persp(x, 10*y, 3*z, border="transparent", col = "powder blue",
 #'                 theta = 30, phi = 15, r = 20, scale = FALSE, shade = TRUE, 
